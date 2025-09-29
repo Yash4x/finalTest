@@ -1,5 +1,6 @@
 [MASTER]
 ignore=venv
+init-hook='import sys, os; sys.path.insert(0, os.path.join(os.getcwd(), "src"))'
 
 [MESSAGES CONTROL]
 disable=
