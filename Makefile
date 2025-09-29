@@ -17,7 +17,7 @@ test:
 
 # Run pylint
 lint:
-	$(VENV_PY) -m pylint src/ tests/ --fail-under=8.0
+	PYTHONPATH=src $(VENV_PY) -m pylint src/ tests/ --fail-under=8.0
 
 # Format code with black and isort
 format:
