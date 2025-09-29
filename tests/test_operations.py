@@ -1,13 +1,15 @@
-from src.operations import addition, multiply, subtraction
+"""Tests for calculator operations."""
 
+from calculator.operations import add, subtract
 
-def test_addition():
-    assert addition(2, 3) == 5
+def test_add():
+    """Test the add function."""
+    assert add(1, 2) == 3
+    assert add(-1, 1) == 0
+    assert add(0, 0) == 0
 
-
-def test_subtraction():
-    assert subtraction(5, 3) == 2
-
-
-def test_multiply():
-    assert multiply(2, 3) == 6
+def test_subtract():
+    """Test the subtract function."""
+    assert subtract(3, 2) == 1
+    assert subtract(2, 3) == -1
+    assert subtract(0, 0) == 0
