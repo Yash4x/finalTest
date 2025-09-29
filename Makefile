@@ -1,31 +1,36 @@
 .PHONY: install test lint format check-format check-imports ci-check clean
 
+# Use the project's virtualenv python for tooling to avoid relying on PATH
+VENV_PY=/home/yash1x/test/python_calculator/venv/bin/python
+
 # Install dependencies
 install:
-	pip install --upgrade pip
-	pip install -r requirements.txt
-	pip install black
+	$(VENV_PY) -m pip install --upgrade pip
+	$(VENV_PY) -m pip install -r requirements.txt
+	$(VENV_PY) -m pip install black isort
 
 # Run tests with coverage
 test:
-	pytest --cov=src --cov-report=term-missing --cov-fail-under=100
+	# Run pytest via python -m and override pytest.ini addopts to avoid
+	# duplicate/unrecognized argument issues when plugins add options.
+	PYTHONPATH=src $(VENV_PY) -m pytest --cov=src --cov-report=term-missing --cov-fail-under=100 -q -o addopts=""
 
 # Run pylint
 lint:
-	pylint src/ tests/ --fail-under=8.0
+	$(VENV_PY) -m pylint src/ tests/ --fail-under=8.0
 
 # Format code with black and isort
 format:
-	black src/ tests/
-	isort src/ tests/
+	$(VENV_PY) -m black src/ tests/
+	$(VENV_PY) -m isort src/ tests/
 
 # Check code formatting (dry run)
 check-format:
-	black --check --diff src/ tests/
+	$(VENV_PY) -m black --check --diff src/ tests/
 
 # Check import sorting (dry run)
 check-imports:
-	isort --check-only --diff src/ tests/
+	$(VENV_PY) -m isort --check-only --diff src/ tests/
 
 # Run all CI checks locally (same as GitHub Actions)
 ci-check: check-imports check-format lint test
