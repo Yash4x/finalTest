@@ -69,12 +69,15 @@ jobs:
 
     - name: Check import sorting with isort
       run: |
-        isort --check-only --diff src/ tests/
+        # Run isort only on the project package and tests to avoid linting installed editable deps
+        isort --check-only --diff src/calculator tests/
 
     - name: Check code formatting with black
       run: |
-        black --check --diff src/ tests/
+        # Run black only on the project package and tests to avoid formatting installed editable deps
+        black --check --diff src/calculator tests/
 
     - name: Run pylint
       run: |
-        pylint src/ tests/ --fail-under=8.0
+        # Limit pylint to the project package and tests. Adjust the path if your package lives elsewhere under src/.
+        pylint src/calculator tests/ --fail-under=8.0
